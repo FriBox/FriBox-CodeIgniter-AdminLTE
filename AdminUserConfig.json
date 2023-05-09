@@ -1,0 +1,19 @@
+[
+    {
+        "Username": "Admin",
+        "Nickname": "Administrator",
+        "Password": "7D075488546443712F946B8E414DFB48836F45424D170BF528FC116B83102E667BD078CABF2850BAEA6665FEC2B8E7566B95C749D0B2D92411761A155821FA24",
+        "Description": "System Administrator",
+        "Disable": false,
+        "Permission": "[Administrator]"
+    },
+
+    {
+        "Username": "Guest",
+        "Nickname": "Guest",
+        "Password": "3D1EE5DC0628F91275C17089EB0AE77835DC7831BFE375222582074C6AC6D36D5738132250452B70038426C324E04416C8B184A4DB9F1A500F9CB5284A59E6A0",
+        "Description": "System Guest User",
+        "Disable": true,
+        "Permission": "[Null]"
+    }
+]

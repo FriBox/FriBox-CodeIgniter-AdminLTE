@@ -1,0 +1,106 @@
+@charset "utf-8";
+/* CSS Document : style.base.css */
+
+@font-face {
+    font-family: 'Optima';
+    src: url('/css/fonts/Optima.ttf') format('truetype'),
+        url('/css/fonts/Optima.woff') format('woff'),
+        url('/css/fonts/Optima.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+}
+
+body {
+    background-color: #F7F9FB;
+    font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue","Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",sans-serif,"微软雅黑","黑体",Tahoma, Geneva, Arial;
+}
+
+.tooltip-inner {
+    max-width: 520px;
+}
+
+.bs-tooltip-bottom .tooltip-inner {
+    background-color: #28a745;
+}
+
+.bs-tooltip-bottom .arrow::before {
+  border-bottom-color: #28a745;
+}
+
+input#vPass, input#vUser, select#form-Lang {
+    border: 1px solid #a1a1a1;
+}
+
+p.form-label {
+    margin-bottom: 0.5rem;
+}
+
+div.pagemain {
+    margin: 0 auto;
+    width: 1024px;
+    min-height: 480px;
+    border: 0px;
+}
+
+div.login-logo {
+    margin: 0 auto;
+    padding-top: 128px;
+    padding-bottom: 18px;
+    width: 600px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #666666;
+    text-shadow: 2px 2px #bbb;
+    font-family: "Optima";
+}
+
+div.login-main {
+    margin: 0 auto;
+    padding: 20px;
+    width: 600px;
+    height: 416px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 2px 3px 7px #d3d0d0;
+}
+
+div.login-from {
+    margin: 0 auto;
+    padding-top: 42px;
+    width: 360px;
+}
+
+select#form-Lang {
+    height: calc(1.5em + 0.75rem + 0px);
+    border-radius: 0.25rem;
+    padding-left: 10px;
+}
+
+div.login-Copyright {
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-left: 5px;
+    width: 600px;
+    height: 60px;
+    font-size: 14px;
+}
+
+.login-Copyright-txt {
+    font-size: 12px;
+    color: #888888;
+    letter-spacing: -0.15px;
+    width: 565px;
+    display: inline-block;
+    line-height:13px;
+}
+
+.LoginErrorText {
+    overflow: hidden;
+    padding-top: 14px;
+    width: 100%;
+    color: red;
+    word-wrap: break-word;
+    font-size: 12px;
+    word-break: break-all;
+}
+
