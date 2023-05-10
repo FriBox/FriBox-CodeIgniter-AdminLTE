@@ -2,10 +2,6 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
-use Config\Services;
-
-
 class Admin extends FWController {
 
     public function index() {  //系统首页；
@@ -18,13 +14,14 @@ class Admin extends FWController {
     }  // Route::Admin [END]
 
     public function login() {  //登录页面；
+        $request = \Config\Services::request();
         $Data=$this->_GetLanguage();  //获取本地语言，控制器初始化完成；
         $Data['xControllerName']='Admin/Login';  //输出信息；
         $Data['xFWUser']='';  //之前用户验证失败的历史用户名；
-        if ($this->request->getMethod() == 'post') {
+        if ( $this->request->getServer('REQUEST_METHOD') == 'POST' ) {
             // 处理post请求，验证用户；
-            $xUsername = trim($this->request->getPost('vUser'));  //读取Post中的用户名；
-            $xPassword = trim($this->request->getPost('vPass'));  //读取Post中的密码；
+            $xUsername = trim($request->getPost('vUser'));  //读取Post中的用户名；
+            $xPassword = trim($request->getPost('vPass'));  //读取Post中的密码；
             $xChkAuthenticate=$this->_ChkAuthenticate($xUsername,$xPassword);  //验证用户信息
             switch ($xChkAuthenticate['xFWChkAuthenticate'] ?? '-99') {
             case 0:  //0：验证成功；

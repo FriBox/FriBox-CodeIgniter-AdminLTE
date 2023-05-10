@@ -45,9 +45,9 @@ abstract class FWController extends Controller
 
 
     public function _GetLanguage(bool $Mark = false) {  //获取本地语言，注：传入“是否标记”，默认标记（设置Framework的Cookie和Session标记）；
-        helper('cookie');  $session=\Config\Services::session();  if (!$session->has('started')) { $session->start(); };  //加载项；
+        helper('cookie');  $session=\Config\Services::session();  $request = \Config\Services::request();  if (!$session->has('started')) { $session->start(); };  //加载项；
         if ($Mark) { $session->set('Framework', 'FBWASF');  set_cookie('Framework', 'FBWASF', getenv('cookie.expires') );  };  //设置Framework的Session标记；设置Framework的Cookie标记；参数格式：$name, $value, $minutes ；
-        $Lang=$session->get('Language');  if (!isset($Lang)) { $Lang=$this->request->getCookie('Language'); };  if (!isset($Lang)) { $Lang=$_ENV['APP_LOCALE']; };  //如没有再获取Cookie的Language，如没有再获取Session的Language；都没有就使用.env中的默认值；
+        $Lang=$session->get('Language');  if (!isset($Lang)) { $Lang=$request->getCookie('Language'); };  if (!isset($Lang)) { $Lang=$_ENV['APP_LOCALE']; };  //如没有再获取Cookie的Language，如没有再获取Session的Language；都没有就使用.env中的默认值；
         $Lang=strtolower(trim($Lang));  global $xLangs;  if (isset($xLangs[$Lang])) { $Lang=$xLangs[$Lang]; } else { $Lang=$_ENV['APP_LOCALE']; };//判断是否是系统允许的语种，并设置系统默认语言；
         Services::language()->setLocale($Lang);  $Lang=Services::language()->getLocale();  //设置当前语言；
         $session->set('Language',$Lang);  set_cookie('Language', $Lang, getenv('cookie.expires') );  $Data['xFWLang']=$Lang;  //记住语言；
@@ -57,12 +57,12 @@ abstract class FWController extends Controller
 
 
     public function _SetLanguage(bool $Mark = false) {  //设置本地语言，注：传入“是否标记”，默认标记（设置Framework的Cookie和Session标记）；
-        helper('cookie');  $session=\Config\Services::session();  if (!$session->has('started')) { $session->start(); };  //加载项；
+        helper('cookie');  $session=\Config\Services::session();  $request = \Config\Services::request();  if (!$session->has('started')) { $session->start(); };  //加载项；
         if ($Mark) { $session->set('Framework', 'FBWASF');  set_cookie('Framework', 'FBWASF', getenv('cookie.expires') );  };  //设置Framework的Session标记；设置Framework的Cookie标记；参数格式：$name, $value, $minutes ；
         //设置本地语言；
-        $Lang=$this->request->getGet('l');  if (!isset($Lang)) { $Lang=$this->request->getGet('lang'); };  //先获取Get的l，如没有再获取Get的lang；
-        if (!isset($Lang)) { $Lang=$this->request->getPost('l'); };  if (!isset($Lang)) { $Lang=$this->request->getPost('lang'); };  //如没有再获取Post的l，如没有再获取Post的lang；
-        if (!isset($Lang)) { $Lang=$this->request->getCookie('Language'); };  if (!isset($Lang)) { $Lang=$session->get('Language'); };  //如没有再获取Cookie的Language，如没有再获取Session的Language；
+        $Lang=$request->getGet('l');  if (!isset($Lang)) { $Lang=$request->getGet('lang'); };  //先获取Get的l，如没有再获取Get的lang；
+        if (!isset($Lang)) { $Lang=$request->getPost('l'); };  if (!isset($Lang)) { $Lang=$request->getPost('lang'); };  //如没有再获取Post的l，如没有再获取Post的lang；
+        if (!isset($Lang)) { $Lang=$request->getCookie('Language'); };  if (!isset($Lang)) { $Lang=$session->get('Language'); };  //如没有再获取Cookie的Language，如没有再获取Session的Language；
         if (!isset($Lang)) { $Lang=$_ENV['APP_LOCALE']; };  //都没有就使用.env中的默认值；
         //以上4行代码：Post和Get一起取，同名post覆盖get，如果有Cookie就使用Cookie的设置值，失败就使用Session，最后都失败就用.env中的默认值；
         $Lang=strtolower(trim($Lang));  global $xLangs;  if (isset($xLangs[$Lang])) { $Lang=$xLangs[$Lang]; } else { $Lang=$_ENV['APP_LOCALE']; };//判断是否是系统允许的语种，并设置系统默认语言；
@@ -101,6 +101,7 @@ abstract class FWController extends Controller
             return $Data;  //返回验证结果；
         };
         //04.开始遍历用户信息进行验证；
+        $cAdminUserSHA256='';
         foreach ($cAdminUsers as $cAdminUser) {
             if (strtolower($cAdminUser['Username']) == strtolower($cUsername) && strtoupper($cAdminUser['Password']) == $cPasswordSHA512 ) {
                 if (!$cAdminUser['Disable']) {
@@ -131,10 +132,10 @@ abstract class FWController extends Controller
 
     public function _ChkLogin(bool $Mark = true) {  //验证已登录信息
         //返回 0：验证成功；-1：验证失败；
-        helper('cookie');  $session=\Config\Services::session();  if (!$session->has('started')) { $session->start(); };  //加载项；
+        helper('cookie');  $session=\Config\Services::session();  $request = \Config\Services::request();  if (!$session->has('started')) { $session->start(); };  //加载项；
         if ($Mark) { $session->set('Framework', 'FBWASF');  set_cookie('Framework', 'FBWASF', getenv('cookie.expires') );  };  //设置Framework的Session标记；设置Framework的Cookie标记；参数格式：$name, $value, $minutes ；
-        $cSecretUID=$this->request->getCookie('SecretUID');  if (!isset($cSecretUID)) { $cSecretUID=$session->get('SecretUID'); };  //如没有Cookie的SecretUID，就获取Session的SecretUID；
-        $cSecretUKEY=$this->request->getCookie('SecretUKEY');  if (!isset($cSecretUKEY)) { $cSecretUKEY=$session->get('SecretUKEY'); };  //如没有Cookie的SecretUKEY，就获取Session的SecretUKEY；
+        $cSecretUID=$request->getCookie('SecretUID');  if (!isset($cSecretUID)) { $cSecretUID=$session->get('SecretUID'); };  //如没有Cookie的SecretUID，就获取Session的SecretUID；
+        $cSecretUKEY=$request->getCookie('SecretUKEY');  if (!isset($cSecretUKEY)) { $cSecretUKEY=$session->get('SecretUKEY'); };  //如没有Cookie的SecretUKEY，就获取Session的SecretUKEY；
         if (!isset($cSecretUID)) { $cSecretUID=''; };  if (!isset($cSecretUKEY)) { $cSecretUKEY=''; };  $cSecretUID=trim($cSecretUID);  $cSecretUKEY=trim($cSecretUKEY);  
         //01.检验SecretUID或SecretUKEY是否为空白
         if ($cSecretUID === null or $cSecretUID === '' or $cSecretUKEY === null or $cSecretUKEY === '') {
