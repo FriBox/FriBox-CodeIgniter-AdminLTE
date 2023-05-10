@@ -39,6 +39,7 @@ $routes->match(['get','post','put'], '(?i:language)', 'Home::language');  //设�
 // 后台管理控制台路由
 $routes->get('(?i:admin)', 'Admin::index');  //设置Admin管理控制台路由/Admin
 $routes->match(['get','post'], '(?i:admin/login)', 'Admin::login');  //设置Admin管理控制台登录路由/Admin/Login
+$routes->get('(?i:admin/logout)', 'Admin::logout');  //设置Admin管理控制台登出路由/Admin/Logout
 
 
 /*

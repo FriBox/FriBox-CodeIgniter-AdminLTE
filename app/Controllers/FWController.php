@@ -135,25 +135,24 @@ abstract class FWController extends Controller
         if ($Mark) { $session->set('Framework', 'FBWASF');  set_cookie('Framework', 'FBWASF', getenv('cookie.expires') );  };  //设置Framework的Session标记；设置Framework的Cookie标记；参数格式：$name, $value, $minutes ；
         $cSecretUID=$this->request->getCookie('SecretUID');  if (!isset($cSecretUID)) { $cSecretUID=$session->get('SecretUID'); };  //如没有Cookie的SecretUID，就获取Session的SecretUID；
         $cSecretUKEY=$this->request->getCookie('SecretUKEY');  if (!isset($cSecretUKEY)) { $cSecretUKEY=$session->get('SecretUKEY'); };  //如没有Cookie的SecretUKEY，就获取Session的SecretUKEY；
-        if (!isset($cSecretUID)) { $cSecretUID=''; };  if (!isset($cSecretUKEY)) { $cSecretUKEY=''; };
-        $cSecretUID=trim($cSecretUID);  $cSecretUKEY=trim($cSecretUKEY);  
+        if (!isset($cSecretUID)) { $cSecretUID=''; };  if (!isset($cSecretUKEY)) { $cSecretUKEY=''; };  $cSecretUID=trim($cSecretUID);  $cSecretUKEY=trim($cSecretUKEY);  
         //01.检验SecretUID或SecretUKEY是否为空白
         if ($cSecretUID === null or $cSecretUID === '' or $cSecretUKEY === null or $cSecretUKEY === '') {
-            //delete_cookie('SecretUID');  delete_cookie('SecretUKEY');  unset($_SESSION['SecretUID']);  unset($_SESSION['SecretUKEY']);  //删除用户登录Cookie和Session
+            delete_cookie('SecretUID');  delete_cookie('SecretUKEY');  unset($_SESSION['SecretUID']);  unset($_SESSION['SecretUKEY']);  //删除用户登录Cookie和Session
             $Data['xFWChkLogin']=-1;  //-1：验证失败；
             return $Data;  //返回验证结果；
         }
         //02.预处理AdminUserConfig文件；
         $cAdminUserConfig_file = ROOTPATH . getenv('AdminUserConfigPath') . getenv('AdminUserConfig');  //AdminUserConfig配置文件路径名；
         if (!file_exists($cAdminUserConfig_file)) {  //处理文件不存在的情况；
-            //delete_cookie('SecretUID');  delete_cookie('SecretUKEY');  unset($_SESSION['SecretUID']);  unset($_SESSION['SecretUKEY']);  //删除用户登录Cookie和Session
+            delete_cookie('SecretUID');  delete_cookie('SecretUKEY');  unset($_SESSION['SecretUID']);  unset($_SESSION['SecretUKEY']);  //删除用户登录Cookie和Session
             $Data['xFWChkLogin']=-1;  //-1：验证失败；
             return $Data;  //返回验证结果；
         };
         //03.读取解析AdminUserConfig文件；
         $cAdminUsers = json_decode(file_get_contents($cAdminUserConfig_file), true);
         if (!isset($cAdminUsers)) {  //处理解析失败的情况；
-            //delete_cookie('SecretUID');  delete_cookie('SecretUKEY');  unset($_SESSION['SecretUID']);  unset($_SESSION['SecretUKEY']);  //删除用户登录Cookie和Session
+            delete_cookie('SecretUID');  delete_cookie('SecretUKEY');  unset($_SESSION['SecretUID']);  unset($_SESSION['SecretUKEY']);  //删除用户登录Cookie和Session
             $Data['xFWChkLogin']=-1;  //-1：验证失败；
             return $Data;  //返回验证结果；
         };
@@ -173,7 +172,7 @@ abstract class FWController extends Controller
         }
         //05.如果遍历完所有用户信息都没有匹配到，则输出错误信息；
         if (!isset($cAdminUserName)) {
-            //delete_cookie('SecretUID');  delete_cookie('SecretUKEY');  unset($_SESSION['SecretUID']);  unset($_SESSION['SecretUKEY']);  //删除用户登录Cookie和Session
+            delete_cookie('SecretUID');  delete_cookie('SecretUKEY');  unset($_SESSION['SecretUID']);  unset($_SESSION['SecretUKEY']);  //删除用户登录Cookie和Session
             $Data['xFWChkLogin']=-1;  //-1：验证失败；
             return $Data;  //返回验证结果；
         }
