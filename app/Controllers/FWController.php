@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use Config\Services;
+use CodeIgniter\HTTP\RequestInterface;
 
 /* ======  自定义全局变量  ====== */
 global $xLangs;
