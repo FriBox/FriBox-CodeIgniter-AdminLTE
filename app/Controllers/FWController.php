@@ -103,14 +103,14 @@ abstract class FWController extends Controller
         //04.开始遍历用户信息进行验证；
         foreach ($cAdminUsers as $cAdminUser) {
             if (strtolower($cAdminUser['Username']) == strtolower($cUsername) && strtoupper($cAdminUser['Password']) == $cPasswordSHA512 ) {
-                if (!$cAdminUser['Disable']) { 
+                if (!$cAdminUser['Disable']) {
                     $cAdminUserName = Trim($cAdminUser['Username']);
                     $cAdminUserSHA256 = $this->_Get_PassSHA256($cAdminUser['Username'],True);  //计算用户唯一字串
                     $Data['xFWAdminUserUsername'] = $cAdminUserName;  //缓存用户名；
                     $Data['xFWAdminUserNickname']  = Trim($cAdminUser['Nickname']) ?? Trim($cAdminUser['Username']);  //缓存用户昵称；
                     $Data['xFWAdminUserDescription']  = Trim($cAdminUser['Description']) ?? '';  //缓存用户描述；
                     $Data['xFWAdminUserPermission']  = Trim($cAdminUser['Permission']) ?? '[Null]';  //缓存用户权限；
-                }; 
+                };
                 break;
             }
         }
@@ -166,7 +166,7 @@ abstract class FWController extends Controller
                     $Data['xFWAdminUserNickname']  = Trim($cAdminUser['Nickname']) ?? Trim($cAdminUser['Username']);  //缓存用户昵称；
                     $Data['xFWAdminUserDescription']  = Trim($cAdminUser['Description']) ?? '';  //缓存用户描述；
                     $Data['xFWAdminUserPermission']  = Trim($cAdminUser['Permission']) ?? '[Null]';  //缓存用户权限；
-                }; 
+                };
                 break;
             }
         }
